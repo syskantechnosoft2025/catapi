@@ -34,6 +34,15 @@ public class CatControllerTest {
     }
 
     @Test
+    public void testPingEndpoint() throws Exception {
+        mockMvc.perform(get("/api/ping"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value("UP"))
+                .andExpect(jsonPath("$.message").value("Cat API is running"));
+    }
+
+    @Test
     public void testGetCatReturnsErrorResponseWhenServiceFails() throws Exception {
         when(catService.getCatImage()).thenThrow(new CatApiException("Unable to fetch cat image from external service", HttpStatus.SERVICE_UNAVAILABLE));
 
