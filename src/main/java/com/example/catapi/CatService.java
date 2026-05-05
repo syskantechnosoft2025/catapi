@@ -5,8 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class CatService {
@@ -35,6 +36,9 @@ public class CatService {
 
             logger.info("Successfully fetched cat image, size: {}", image.length);
             return image;
+        } catch (HttpStatusCodeException e) {
+            logger.error("HTTP error fetching cat image from {} - status={}, response={}", CAT_API_URL, e.getStatusCode(), e.getResponseBodyAsString(), e);
+            throw new CatApiException("Unable to fetch cat image from external service", e, HttpStatus.SERVICE_UNAVAILABLE);
         } catch (RestClientException e) {
             logger.error("Error fetching cat image from {}", CAT_API_URL, e);
             throw new CatApiException("Unable to fetch cat image from external service", e, HttpStatus.SERVICE_UNAVAILABLE);

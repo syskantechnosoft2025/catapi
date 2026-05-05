@@ -1,7 +1,0 @@
-com\example\catapi\CatService.class
-com\example\catapi\CatapiApplication.class
-com\example\catapi\CatController.class
-com\example\catapi\ApiErrorResponse.class
-com\example\catapi\GlobalExceptionHandler.class
-com\example\catapi\CatApiException.class
-com\example\catapi\AppConfig.class
